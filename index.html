@@ -46,7 +46,6 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
     overflow-x: hidden;
   }
 
-  /* NOISE TEXTURE */
   body::before {
     content: '';
     position: fixed;
@@ -78,6 +77,8 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
     display: flex;
     align-items: center;
     gap: 0.6rem;
+    text-decoration: none;
+    color: var(--text);
   }
 
   .logo-badge {
@@ -102,61 +103,17 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
   .status-dot {
     width: 7px; height: 7px;
     border-radius: 50%;
-    background: var(--accent3);
-    box-shadow: 0 0 8px var(--accent3);
+    background: var(--muted);
     animation: pulse 2s infinite;
   }
+  .status-dot.live { background: var(--accent3); box-shadow: 0 0 8px var(--accent3); }
+  .status-dot.error { background: #f87171; box-shadow: 0 0 8px #f87171; }
 
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
-  /* HERO */
-  .hero {
-    padding: 5rem 2.5rem 3rem;
-    max-width: 900px;
-  }
-
-  .hero-tag {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: var(--accent);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-bottom: 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .hero-tag::before {
-    content: '';
-    width: 20px;
-    height: 1px;
-    background: var(--accent);
-  }
-
-  h1 {
-    font-size: clamp(2.8rem, 6vw, 4.5rem);
-    font-weight: 800;
-    line-height: 1.0;
-    letter-spacing: -0.04em;
-    margin-bottom: 1.5rem;
-  }
-
-  h1 span {
-    color: var(--accent);
-  }
-
-  .hero-desc {
-    color: var(--muted);
-    font-size: 1rem;
-    line-height: 1.7;
-    max-width: 520px;
-    font-family: var(--font-mono);
-  }
-
-  /* SNIPPET SECTION */
+  /* SNIPPET */
   .snippet-section {
-    margin: 0 2.5rem 3rem;
+    margin: 1rem 2.5rem;
     padding: 1.5rem;
     background: var(--card);
     border: 1px solid var(--border);
@@ -193,7 +150,6 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
     outline: none;
     transition: border-color 0.2s;
   }
-
   input[type="text"]:focus { border-color: var(--accent); }
 
   .btn {
@@ -207,31 +163,14 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
     transition: all 0.2s;
     letter-spacing: 0.02em;
   }
-
-  .btn-primary {
-    background: var(--accent);
-    color: white;
-  }
-
+  .btn-primary { background: var(--accent); color: white; }
   .btn-primary:hover { background: #ff6a2a; transform: translateY(-1px); }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--border);
-  }
-
+  .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
   .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-
-  .btn-ghost {
-    background: rgba(124,58,237,0.15);
-    color: #a78bfa;
-    border: 1px solid rgba(124,58,237,0.3);
-  }
-
+  .btn-ghost { background: rgba(124,58,237,0.15); color: #a78bfa; border: 1px solid rgba(124,58,237,0.3); }
   .btn-ghost:hover { background: rgba(124,58,237,0.25); }
 
-  /* MAIN GRID */
+  /* LAYOUT */
   .main-grid {
     display: grid;
     grid-template-columns: 260px 1fr;
@@ -277,40 +216,55 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
     transition: all 0.15s;
     margin-bottom: 2px;
     font-weight: 600;
+    text-decoration: none;
+    user-select: none;
   }
-
   .nav-item:hover { background: var(--card); color: var(--text); }
   .nav-item.active { background: rgba(255,77,0,0.1); color: var(--accent); }
-
   .nav-icon { font-size: 1rem; width: 20px; text-align: center; }
 
-  /* CONTENT AREA */
+  /* CONTENT */
   .content {
     padding: 2.5rem;
     overflow-y: auto;
   }
 
-  /* PANELS */
-  .panel { display: none; }
-  .panel.active { display: block; }
-
-  .section-header {
-    margin-bottom: 2rem;
+  /* SPA VIEW TRANSITION */
+  .panel {
+    display: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+  }
+  .panel.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+    animation: fadeSlideIn 0.22s ease forwards;
   }
 
-  .section-title {
-    font-size: 1.6rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    margin-bottom: 0.4rem;
+  @keyframes fadeSlideIn {
+    from { opacity:0; transform: translateY(8px); }
+    to   { opacity:1; transform: translateY(0); }
   }
 
-  .section-desc {
-    color: var(--muted);
+  /* SECTION HEADER */
+  .section-header { margin-bottom: 2rem; }
+  .section-title { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.4rem; }
+  .section-desc { color: var(--muted); font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.6; }
+
+  /* BREADCRUMB */
+  .breadcrumb {
     font-family: var(--font-mono);
-    font-size: 0.78rem;
-    line-height: 1.6;
+    font-size: 0.68rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
   }
+  .breadcrumb-sep { opacity: 0.4; }
+  .breadcrumb-current { color: var(--accent); }
 
   /* CARDS */
   .card {
@@ -320,7 +274,6 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
     padding: 1.5rem;
     margin-bottom: 1.2rem;
   }
-
   .card-title {
     font-size: 0.9rem;
     font-weight: 700;
@@ -329,7 +282,6 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
     align-items: center;
     gap: 0.5rem;
   }
-
   .card-desc {
     font-size: 0.78rem;
     color: var(--muted);
@@ -352,16 +304,14 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
     color: var(--accent3);
     line-height: 1.8;
   }
-
   .log-entry { display: flex; gap: 0.5rem; }
   .log-time { color: var(--muted); flex-shrink: 0; }
   .log-msg { color: var(--accent3); }
   .log-error { color: #f87171; }
   .log-warn { color: #fbbf24; }
 
-  /* AB TEST DEMO */
+  /* AB TEST */
   .variant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
-
   .variant-card {
     border: 2px solid var(--border);
     border-radius: 8px;
@@ -369,10 +319,8 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
     cursor: pointer;
     transition: all 0.2s;
   }
-
   .variant-card:hover { border-color: var(--accent); transform: translateY(-2px); }
   .variant-card.selected { border-color: var(--accent3); }
-
   .variant-header {
     background: var(--surface);
     padding: 0.6rem 1rem;
@@ -382,10 +330,9 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
     justify-content: space-between;
     align-items: center;
   }
-
   .variant-body { padding: 1rem; }
 
-  /* HEATMAP DEMO */
+  /* HEATMAP */
   .heatmap-zone {
     position: relative;
     width: 100%;
@@ -396,31 +343,21 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
     overflow: hidden;
     cursor: crosshair;
   }
-
   .heat-dot {
     position: absolute;
     border-radius: 50%;
     pointer-events: none;
     animation: heatfade 3s ease-out forwards;
   }
-
   @keyframes heatfade {
     0% { opacity:0.9; transform:scale(1); }
     100% { opacity:0; transform:scale(2.5); }
   }
 
-  /* FORM for conversion */
+  /* FORMS */
   .demo-form { display: flex; flex-direction: column; gap: 0.8rem; }
-
   .form-group { display: flex; flex-direction: column; gap: 0.3rem; }
-
-  label {
-    font-size: 0.75rem;
-    color: var(--muted);
-    font-family: var(--font-mono);
-    letter-spacing: 0.05em;
-  }
-
+  label { font-size: 0.75rem; color: var(--muted); font-family: var(--font-mono); letter-spacing: 0.05em; }
   input[type="email"], input[type="number"], select, textarea {
     background: var(--bg);
     border: 1px solid var(--border);
@@ -433,13 +370,11 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
     transition: border-color 0.2s;
     width: 100%;
   }
-
   input:focus, select:focus, textarea:focus { border-color: var(--accent); }
   select option { background: var(--card); }
 
   /* STATS */
   .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
-
   .stat-box {
     background: var(--card);
     border: 1px solid var(--border);
@@ -447,22 +382,8 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
     padding: 1.2rem;
     text-align: center;
   }
-
-  .stat-val {
-    font-size: 2rem;
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    color: var(--accent);
-    font-family: var(--font-mono);
-  }
-
-  .stat-label {
-    font-size: 0.68rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-top: 0.3rem;
-  }
+  .stat-val { font-size: 2rem; font-weight: 800; letter-spacing: -0.04em; color: var(--accent); font-family: var(--font-mono); }
+  .stat-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.3rem; }
 
   /* FUNNEL */
   .funnel-step {
@@ -477,32 +398,21 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
     transition: all 0.2s;
     cursor: pointer;
   }
-
   .funnel-step:hover { border-color: var(--accent); }
   .funnel-step.done { border-color: var(--accent3); }
-
   .funnel-bar-wrap { flex: 1; background: var(--bg); height: 6px; border-radius: 3px; overflow: hidden; }
   .funnel-bar { height: 100%; background: var(--accent); border-radius: 3px; transition: width 1s ease; }
   .funnel-step.done .funnel-bar { background: var(--accent3); }
-
   .funnel-pct { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); min-width: 40px; text-align: right; }
   .funnel-name { font-size: 0.82rem; font-weight: 600; min-width: 120px; }
 
-  /* SCROLL MAP */
-  .scrollmap-wrap {
-    position: relative;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    height: 300px;
-  }
-
+  /* SCROLLMAP */
+  .scrollmap-wrap { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; height: 300px; }
   .scrollmap-page {
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, 
-      rgba(255,77,0,0.3) 0%, 
+    background: linear-gradient(to bottom,
+      rgba(255,77,0,0.3) 0%,
       rgba(255,77,0,0.2) 25%,
       rgba(124,58,237,0.15) 50%,
       rgba(0,212,170,0.1) 75%,
@@ -510,31 +420,11 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
     );
     position: relative;
   }
-
-  .scroll-label {
-    position: absolute;
-    right: 10px;
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    color: var(--muted);
-  }
-
-  .scroll-line {
-    position: absolute;
-    left: 0; right: 0;
-    height: 1px;
-    background: rgba(255,255,255,0.08);
-  }
+  .scroll-label { position: absolute; right: 10px; font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted); }
+  .scroll-line { position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.08); }
 
   /* BADGE */
-  .badge {
-    font-family: var(--font-mono);
-    font-size: 0.62rem;
-    padding: 2px 7px;
-    border-radius: 3px;
-    font-weight: 400;
-  }
-
+  .badge { font-family: var(--font-mono); font-size: 0.62rem; padding: 2px 7px; border-radius: 3px; font-weight: 400; }
   .badge-green { background: rgba(0,212,170,0.12); color: var(--accent3); border: 1px solid rgba(0,212,170,0.2); }
   .badge-orange { background: rgba(255,77,0,0.12); color: var(--accent); border: 1px solid rgba(255,77,0,0.2); }
   .badge-purple { background: rgba(124,58,237,0.12); color: #a78bfa; border: 1px solid rgba(124,58,237,0.2); }
@@ -547,62 +437,26 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
     padding: 0.8rem 0;
     border-bottom: 1px solid var(--border);
   }
-
   .toggle-row:last-child { border-bottom: none; }
-
   .toggle-label { font-size: 0.85rem; font-weight: 600; }
   .toggle-desc { font-size: 0.72rem; color: var(--muted); font-family: var(--font-mono); margin-top: 0.1rem; }
-
-  .toggle {
-    width: 42px; height: 22px;
-    background: var(--border);
-    border-radius: 11px;
-    position: relative;
-    cursor: pointer;
-    transition: background 0.2s;
-    flex-shrink: 0;
-  }
-
+  .toggle { width: 42px; height: 22px; background: var(--border); border-radius: 11px; position: relative; cursor: pointer; transition: background 0.2s; flex-shrink: 0; }
   .toggle.on { background: var(--accent3); }
-
-  .toggle::after {
-    content: '';
-    position: absolute;
-    width: 16px; height: 16px;
-    background: white;
-    border-radius: 50%;
-    top: 3px; left: 3px;
-    transition: transform 0.2s;
-  }
-
+  .toggle::after { content: ''; position: absolute; width: 16px; height: 16px; background: white; border-radius: 50%; top: 3px; left: 3px; transition: transform 0.2s; }
   .toggle.on::after { transform: translateX(20px); }
 
-  /* EVENTS TABLE */
+  /* TABLE */
   table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
-  th {
-    text-align: left;
-    padding: 0.6rem 0.8rem;
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    border-bottom: 1px solid var(--border);
-  }
-  td {
-    padding: 0.65rem 0.8rem;
-    border-bottom: 1px solid rgba(42,42,58,0.5);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-  }
+  th { text-align: left; padding: 0.6rem 0.8rem; font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); }
+  td { padding: 0.65rem 0.8rem; border-bottom: 1px solid rgba(42,42,58,0.5); font-family: var(--font-mono); font-size: 0.75rem; }
   tr:hover td { background: rgba(255,255,255,0.02); }
 
-  /* SCROLL */
+  /* SCROLLBAR */
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-  /* FOOTER BAR */
+  /* FOOTER */
   .footer-bar {
     position: fixed;
     bottom: 0; left: 0; right: 0;
@@ -618,17 +472,19 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
     color: var(--muted);
     z-index: 100;
   }
-
   .footer-events { display: flex; gap: 1.5rem; }
 
-  @keyframes slideIn {
-    from { opacity:0; transform: translateY(8px); }
-    to { opacity:1; transform: translateY(0); }
+  /* SPA: active route indicator in breadcrumb */
+  .route-indicator {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    padding: 2px 8px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    margin-left: auto;
   }
 
-  .panel.active { animation: slideIn 0.25s ease; }
-
-  /* RESPONSIVE */
   @media (max-width: 700px) {
     .main-grid { grid-template-columns: 1fr; }
     .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); padding: 1rem; }
@@ -641,10 +497,10 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
 <body>
 
 <header>
-  <div class="logo">
+  <a class="logo" href="#ab" data-route="ab">
     <span>VWO TEST LAB</span>
-    <span class="logo-badge">v2.0</span>
-  </div>
+    <span class="logo-badge">v2.0 SPA</span>
+  </a>
   <div class="status-bar">
     <div style="display:flex;align-items:center;gap:0.4rem">
       <div class="status-dot" id="vwoStatus"></div>
@@ -654,11 +510,13 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
     <span id="accountId">Account: —</span>
     <span>|</span>
     <span id="sessionEvents">Events: 0</span>
+    <span>|</span>
+    <span id="routeIndicator" style="color:var(--accent);font-size:0.65rem">#ab</span>
   </div>
 </header>
 
 <!-- VWO Snippet Config -->
-<div class="snippet-section" style="margin-top:1rem">
+<div class="snippet-section">
   <div class="snippet-label">⚡ VWO Snippet Configuration</div>
   <div class="snippet-input-row">
     <input type="text" id="accountInput" placeholder="Enter VWO Account ID (e.g. 123456)" />
@@ -674,92 +532,82 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
   <aside class="sidebar">
     <div class="sidebar-section">
       <div class="sidebar-title">Core Features</div>
-      <div class="nav-item active" onclick="showPanel('ab')">
+      <a class="nav-item active" href="#ab" data-route="ab">
         <span class="nav-icon">🧪</span> A/B Testing
-      </div>
-      <div class="nav-item" onclick="showPanel('mvt')">
+      </a>
+      <a class="nav-item" href="#mvt" data-route="mvt">
         <span class="nav-icon">🔀</span> Multivariate
-      </div>
-      <div class="nav-item" onclick="showPanel('split')">
+      </a>
+      <a class="nav-item" href="#split" data-route="split">
         <span class="nav-icon">✂️</span> Split URL
-      </div>
+      </a>
     </div>
     <div class="sidebar-section">
       <div class="sidebar-title">Analytics</div>
-      <div class="nav-item" onclick="showPanel('heatmap')">
+      <a class="nav-item" href="#heatmap" data-route="heatmap">
         <span class="nav-icon">🔥</span> Heatmaps
-      </div>
-      <div class="nav-item" onclick="showPanel('scroll')">
+      </a>
+      <a class="nav-item" href="#scroll" data-route="scroll">
         <span class="nav-icon">📜</span> Scrollmap
-      </div>
-      <div class="nav-item" onclick="showPanel('session')">
+      </a>
+      <a class="nav-item" href="#session" data-route="session">
         <span class="nav-icon">🎥</span> Session Recording
-      </div>
-      <div class="nav-item" onclick="showPanel('funnel')">
+      </a>
+      <a class="nav-item" href="#funnel" data-route="funnel">
         <span class="nav-icon">📊</span> Funnel Analysis
-      </div>
+      </a>
     </div>
     <div class="sidebar-section">
       <div class="sidebar-title">Advanced</div>
-      <div class="nav-item" onclick="showPanel('goals')">
+      <a class="nav-item" href="#goals" data-route="goals">
         <span class="nav-icon">🎯</span> Goals & Conversions
-      </div>
-      <div class="nav-item" onclick="showPanel('ff')">
+      </a>
+      <a class="nav-item" href="#ff" data-route="ff">
         <span class="nav-icon">🚩</span> Feature Flags
-      </div>
-      <div class="nav-item" onclick="showPanel('push')">
+      </a>
+      <a class="nav-item" href="#push" data-route="push">
         <span class="nav-icon">📡</span> Push API
-      </div>
-      <div class="nav-item" onclick="showPanel('events')">
+      </a>
+      <a class="nav-item" href="#events" data-route="events">
         <span class="nav-icon">📋</span> Event Log
-      </div>
+      </a>
     </div>
   </aside>
 
   <!-- CONTENT -->
-  <main class="content">
+  <main class="content" id="spa-content">
 
     <!-- A/B TESTING -->
-    <div class="panel active" id="panel-ab">
+    <div class="panel" id="panel-ab">
+      <div class="breadcrumb">
+        <span>VWO Test Lab</span>
+        <span class="breadcrumb-sep">›</span>
+        <span>Core Features</span>
+        <span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current">A/B Testing</span>
+      </div>
       <div class="section-header">
         <div class="section-title">A/B Testing</div>
         <div class="section-desc">Simulate VWO A/B experiments. Test variation assignment, goal tracking, and campaign activation.</div>
       </div>
-
       <div class="stats-grid">
-        <div class="stat-box">
-          <div class="stat-val" id="abVisitors">0</div>
-          <div class="stat-label">Visitors</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-val" id="abConversions">0</div>
-          <div class="stat-label">Conversions</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-val" id="abRate">0%</div>
-          <div class="stat-label">Conv. Rate</div>
-        </div>
+        <div class="stat-box"><div class="stat-val" id="abVisitors">0</div><div class="stat-label">Visitors</div></div>
+        <div class="stat-box"><div class="stat-val" id="abConversions">0</div><div class="stat-label">Conversions</div></div>
+        <div class="stat-box"><div class="stat-val" id="abRate">0%</div><div class="stat-label">Conv. Rate</div></div>
       </div>
-
       <div class="card">
         <div class="card-title">🧪 Campaign Setup <span class="badge badge-orange">LIVE</span></div>
         <div class="card-desc">Select a variant to simulate VWO assigning a user to that variation.</div>
         <div class="variant-grid">
           <div class="variant-card" id="varA" onclick="selectVariant('A')">
-            <div class="variant-header">
-              <span>Control (A)</span>
-              <span id="varA-pct">50%</span>
-            </div>
+            <div class="variant-header"><span>Control (A)</span><span id="varA-pct">50%</span></div>
             <div class="variant-body">
               <div style="font-size:1.4rem;font-weight:800;color:var(--accent);margin-bottom:0.5rem">Buy Now</div>
               <div style="font-size:0.78rem;color:var(--muted);font-family:var(--font-mono)">Original CTA button style</div>
             </div>
           </div>
           <div class="variant-card" id="varB" onclick="selectVariant('B')">
-            <div class="variant-header">
-              <span>Variation 1 (B)</span>
-              <span id="varB-pct">50%</span>
-            </div>
+            <div class="variant-header"><span>Variation 1 (B)</span><span id="varB-pct">50%</span></div>
             <div class="variant-body">
               <div style="font-size:1.4rem;font-weight:800;color:var(--accent3);margin-bottom:0.5rem">Get Started Free →</div>
               <div style="font-size:0.78rem;color:var(--muted);font-family:var(--font-mono)">New CTA with urgency</div>
@@ -772,7 +620,6 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
           <button class="btn btn-ghost" onclick="resetAB()">Reset Stats</button>
         </div>
       </div>
-
       <div class="card">
         <div class="card-title">📋 A/B Test Log</div>
         <div class="log-box" id="ab-log">
@@ -783,11 +630,15 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
 
     <!-- MULTIVARIATE -->
     <div class="panel" id="panel-mvt">
+      <div class="breadcrumb">
+        <span>VWO Test Lab</span><span class="breadcrumb-sep">›</span>
+        <span>Core Features</span><span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current">Multivariate</span>
+      </div>
       <div class="section-header">
         <div class="section-title">Multivariate Testing</div>
         <div class="section-desc">Test multiple page elements simultaneously. Combine headline, CTA, and image variations.</div>
       </div>
-
       <div class="card">
         <div class="card-title">🔀 Element Combinations</div>
         <div class="card-desc">Configure and preview multivariate combinations.</div>
@@ -824,25 +675,26 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
         </div>
         <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--muted)">Combination ID: <span id="mvt-combo" style="color:var(--accent)">h1-c1-l1</span></div>
       </div>
-
       <div class="card">
         <div class="card-title">📊 Combination Performance</div>
         <div class="log-box" id="mvt-log" style="min-height:60px">
           <div class="log-entry"><span class="log-time">--:--:--</span><span class="log-msg">Select variants above to log MVT events...</span></div>
         </div>
-        <div style="margin-top:0.8rem">
-          <button class="btn btn-primary" onclick="trackMVT()">Track MVT Conversion</button>
-        </div>
+        <div style="margin-top:0.8rem"><button class="btn btn-primary" onclick="trackMVT()">Track MVT Conversion</button></div>
       </div>
     </div>
 
     <!-- SPLIT URL -->
     <div class="panel" id="panel-split">
+      <div class="breadcrumb">
+        <span>VWO Test Lab</span><span class="breadcrumb-sep">›</span>
+        <span>Core Features</span><span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current">Split URL</span>
+      </div>
       <div class="section-header">
         <div class="section-title">Split URL Testing</div>
         <div class="section-desc">Redirect traffic between different URLs. Simulate VWO's split URL redirect logic.</div>
       </div>
-
       <div class="card">
         <div class="card-title">✂️ URL Split Configuration</div>
         <div class="card-desc">Define control and variation URLs with traffic split percentages.</div>
@@ -866,7 +718,6 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
         </div>
         <button class="btn btn-primary" onclick="simulateSplit()">Simulate Split Decision</button>
       </div>
-
       <div class="card">
         <div class="card-title">📋 Split Decision Log</div>
         <div class="log-box" id="split-log">
@@ -877,11 +728,15 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
 
     <!-- HEATMAP -->
     <div class="panel" id="panel-heatmap">
+      <div class="breadcrumb">
+        <span>VWO Test Lab</span><span class="breadcrumb-sep">›</span>
+        <span>Analytics</span><span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current">Heatmaps</span>
+      </div>
       <div class="section-header">
         <div class="section-title">Heatmaps</div>
         <div class="section-desc">Click on the canvas below to simulate VWO click heatmap data collection.</div>
       </div>
-
       <div class="card">
         <div class="card-title">🔥 Click Heatmap Canvas <span class="badge badge-green">RECORDING</span></div>
         <div class="card-desc">Click anywhere in the zone to record clicks. VWO captures x/y coordinates relative to viewport.</div>
@@ -895,7 +750,6 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
           <button class="btn btn-secondary" style="padding:0.4rem 0.8rem;font-size:0.72rem" onclick="clearHeatmap()">Clear</button>
         </div>
       </div>
-
       <div class="card">
         <div class="card-title">📋 Click Data Log</div>
         <div class="log-box" id="heat-log">
@@ -906,11 +760,15 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
 
     <!-- SCROLLMAP -->
     <div class="panel" id="panel-scroll">
+      <div class="breadcrumb">
+        <span>VWO Test Lab</span><span class="breadcrumb-sep">›</span>
+        <span>Analytics</span><span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current">Scrollmap</span>
+      </div>
       <div class="section-header">
         <div class="section-title">Scrollmap</div>
         <div class="section-desc">Visualize how far users scroll down the page. Simulates VWO scroll depth tracking.</div>
       </div>
-
       <div class="card">
         <div class="card-title">📜 Scroll Depth Visualization</div>
         <div class="card-desc">The gradient shows engagement — red (top) = high engagement, green (bottom) = fewer users reach here.</div>
@@ -928,7 +786,6 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
           <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--muted);margin-top:0.3rem">Current depth: <span id="scrollDepth" style="color:var(--accent)">0%</span></div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-title">📋 Scroll Event Log</div>
         <div class="log-box" id="scroll-log">
@@ -939,15 +796,18 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
 
     <!-- SESSION RECORDING -->
     <div class="panel" id="panel-session">
+      <div class="breadcrumb">
+        <span>VWO Test Lab</span><span class="breadcrumb-sep">›</span>
+        <span>Analytics</span><span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current">Session Recording</span>
+      </div>
       <div class="section-header">
         <div class="section-title">Session Recording</div>
         <div class="section-desc">Simulate VWO session recording: track mouse movement, clicks, form interactions.</div>
       </div>
-
       <div class="card">
         <div class="card-title">🎥 Session Capture Zone <span class="badge badge-orange">REC</span></div>
         <div class="card-desc">Interact with elements below. All events are being captured by VWO-style session recorder.</div>
-        
         <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:1.5rem;margin-bottom:1rem" id="sessionZone" onmousemove="trackMouseMove(event)">
           <div class="demo-form">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem">
@@ -967,20 +827,14 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
             <div class="form-group">
               <label>Plan</label>
               <select onchange="sessionLog('Select: Plan changed to ' + this.value)">
-                <option>Starter</option>
-                <option>Growth</option>
-                <option>Enterprise</option>
+                <option>Starter</option><option>Growth</option><option>Enterprise</option>
               </select>
             </div>
             <button class="btn btn-primary" onclick="sessionLog('Click: CTA button clicked')">Submit Form</button>
           </div>
         </div>
-
-        <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--muted)">
-          Mouse: <span id="mousePos" style="color:var(--accent3)">—</span>
-        </div>
+        <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--muted)">Mouse: <span id="mousePos" style="color:var(--accent3)">—</span></div>
       </div>
-
       <div class="card">
         <div class="card-title">📋 Session Event Log</div>
         <div class="log-box" id="session-log">
@@ -991,30 +845,23 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
 
     <!-- FUNNEL -->
     <div class="panel" id="panel-funnel">
+      <div class="breadcrumb">
+        <span>VWO Test Lab</span><span class="breadcrumb-sep">›</span>
+        <span>Analytics</span><span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current">Funnel Analysis</span>
+      </div>
       <div class="section-header">
         <div class="section-title">Funnel Analysis</div>
         <div class="section-desc">Simulate a multi-step conversion funnel. Click steps to mark them complete.</div>
       </div>
-
       <div class="stats-grid">
-        <div class="stat-box">
-          <div class="stat-val" id="funnelStart">1,000</div>
-          <div class="stat-label">Started</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-val" id="funnelCompleted">0</div>
-          <div class="stat-label">Completed</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-val" id="funnelDropoff">100%</div>
-          <div class="stat-label">Drop-off</div>
-        </div>
+        <div class="stat-box"><div class="stat-val" id="funnelStart">1,000</div><div class="stat-label">Started</div></div>
+        <div class="stat-box"><div class="stat-val" id="funnelCompleted">0</div><div class="stat-label">Completed</div></div>
+        <div class="stat-box"><div class="stat-val" id="funnelDropoff">100%</div><div class="stat-label">Drop-off</div></div>
       </div>
-
       <div class="card">
         <div class="card-title">📊 Funnel Steps</div>
         <div class="card-desc">Click each step in sequence to simulate a user completing the funnel.</div>
-
         <div id="funnelSteps">
           <div class="funnel-step" id="fs-1" onclick="completeFunnelStep(1)">
             <span class="funnel-name">🏠 Homepage Visit</span>
@@ -1042,7 +889,6 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
             <span class="funnel-pct">—</span>
           </div>
         </div>
-
         <div style="margin-top:1rem;display:flex;gap:0.8rem">
           <button class="btn btn-primary" onclick="autoRunFunnel()">Auto-Run Funnel</button>
           <button class="btn btn-secondary" onclick="resetFunnel()">Reset</button>
@@ -1050,17 +896,20 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
       </div>
     </div>
 
-    <!-- GOALS & CONVERSIONS -->
+    <!-- GOALS -->
     <div class="panel" id="panel-goals">
+      <div class="breadcrumb">
+        <span>VWO Test Lab</span><span class="breadcrumb-sep">›</span>
+        <span>Advanced</span><span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current">Goals & Conversions</span>
+      </div>
       <div class="section-header">
         <div class="section-title">Goals & Conversions</div>
         <div class="section-desc">Trigger VWO goals manually. Test revenue, page visit, and custom event goals.</div>
       </div>
-
       <div class="card">
         <div class="card-title">🎯 Goal Triggers</div>
         <div class="card-desc">Click buttons to fire VWO conversion goals. Requires VWO to be loaded with an active campaign.</div>
-
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
           <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:1rem">
             <div style="font-size:0.82rem;font-weight:700;margin-bottom:0.3rem">📄 Page Visit Goal</div>
@@ -1088,7 +937,6 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
           </div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-title">📋 Goal Event Log</div>
         <div class="log-box" id="goals-log">
@@ -1099,54 +947,41 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
 
     <!-- FEATURE FLAGS -->
     <div class="panel" id="panel-ff">
+      <div class="breadcrumb">
+        <span>VWO Test Lab</span><span class="breadcrumb-sep">›</span>
+        <span>Advanced</span><span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current">Feature Flags</span>
+      </div>
       <div class="section-header">
         <div class="section-title">Feature Flags</div>
         <div class="section-desc">Toggle VWO Feature Flags to show/hide features dynamically based on user segments.</div>
       </div>
-
       <div class="card">
         <div class="card-title">🚩 Feature Flag Controls</div>
         <div class="card-desc">Toggle flags to simulate VWO feature rollout. Observe UI changes in real-time.</div>
-
         <div id="ff-list">
           <div class="toggle-row">
-            <div>
-              <div class="toggle-label">🛍️ New Checkout Flow</div>
-              <div class="toggle-desc">ff_new_checkout — Replaces old 3-step checkout with single-page</div>
-            </div>
+            <div><div class="toggle-label">🛍️ New Checkout Flow</div><div class="toggle-desc">ff_new_checkout — Replaces old 3-step checkout with single-page</div></div>
             <div class="toggle" id="ff1" onclick="toggleFF('ff1','New Checkout Flow')"></div>
           </div>
           <div class="toggle-row">
-            <div>
-              <div class="toggle-label">🎨 Dark Mode</div>
-              <div class="toggle-desc">ff_dark_mode — Enables dark theme for returning users</div>
-            </div>
+            <div><div class="toggle-label">🎨 Dark Mode</div><div class="toggle-desc">ff_dark_mode — Enables dark theme for returning users</div></div>
             <div class="toggle" id="ff2" onclick="toggleFF('ff2','Dark Mode')"></div>
           </div>
           <div class="toggle-row">
-            <div>
-              <div class="toggle-label">💬 Live Chat Widget</div>
-              <div class="toggle-desc">ff_live_chat — Shows live chat for high-intent users</div>
-            </div>
+            <div><div class="toggle-label">💬 Live Chat Widget</div><div class="toggle-desc">ff_live_chat — Shows live chat for high-intent users</div></div>
             <div class="toggle" id="ff3" onclick="toggleFF('ff3','Live Chat Widget')"></div>
           </div>
           <div class="toggle-row">
-            <div>
-              <div class="toggle-label">🏷️ Personalized Pricing</div>
-              <div class="toggle-desc">ff_personalized_pricing — Dynamic pricing based on user segment</div>
-            </div>
+            <div><div class="toggle-label">🏷️ Personalized Pricing</div><div class="toggle-desc">ff_personalized_pricing — Dynamic pricing based on user segment</div></div>
             <div class="toggle" id="ff4" onclick="toggleFF('ff4','Personalized Pricing')"></div>
           </div>
           <div class="toggle-row">
-            <div>
-              <div class="toggle-label">📱 Mobile Optimized Nav</div>
-              <div class="toggle-desc">ff_mobile_nav — New sticky navigation for mobile users</div>
-            </div>
+            <div><div class="toggle-label">📱 Mobile Optimized Nav</div><div class="toggle-desc">ff_mobile_nav — New sticky navigation for mobile users</div></div>
             <div class="toggle" id="ff5" onclick="toggleFF('ff5','Mobile Optimized Nav')"></div>
           </div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-title">📋 Feature Flag Log</div>
         <div class="log-box" id="ff-log">
@@ -1157,15 +992,18 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
 
     <!-- PUSH API -->
     <div class="panel" id="panel-push">
+      <div class="breadcrumb">
+        <span>VWO Test Lab</span><span class="breadcrumb-sep">›</span>
+        <span>Advanced</span><span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current">Push API</span>
+      </div>
       <div class="section-header">
         <div class="section-title">Push API</div>
         <div class="section-desc">Use VWO's push() API to send custom visitor attributes and trigger personalization rules.</div>
       </div>
-
       <div class="card">
         <div class="card-title">📡 Push Visitor Attributes</div>
         <div class="card-desc">VWO.push() sends key-value pairs to segment visitors and trigger personalization.</div>
-
         <div style="margin-bottom:1rem">
           <div id="push-pairs" style="display:flex;flex-direction:column;gap:0.5rem;margin-bottom:0.8rem">
             <div class="push-pair" style="display:flex;gap:0.5rem">
@@ -1176,7 +1014,6 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
           </div>
           <button class="btn btn-ghost" onclick="addPushPair()" style="font-size:0.78rem;padding:0.5rem 0.8rem">+ Add Attribute</button>
         </div>
-
         <div style="margin-bottom:1rem">
           <div class="form-group">
             <label>Quick Presets</label>
@@ -1188,10 +1025,8 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
             </div>
           </div>
         </div>
-
         <button class="btn btn-primary" onclick="executePush()">Execute VWO.push()</button>
       </div>
-
       <div class="card">
         <div class="card-title">📋 Push API Log</div>
         <div class="log-box" id="push-log">
@@ -1202,36 +1037,26 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
 
     <!-- EVENT LOG -->
     <div class="panel" id="panel-events">
+      <div class="breadcrumb">
+        <span>VWO Test Lab</span><span class="breadcrumb-sep">›</span>
+        <span>Advanced</span><span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current">Event Log</span>
+      </div>
       <div class="section-header">
         <div class="section-title">Event Log</div>
         <div class="section-desc">Unified log of all VWO events fired across this session.</div>
       </div>
-
       <div class="stats-grid">
-        <div class="stat-box">
-          <div class="stat-val" id="totalEvents">0</div>
-          <div class="stat-label">Total Events</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-val" id="totalErrors">0</div>
-          <div class="stat-label">Errors</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-val" id="sessionDur">0s</div>
-          <div class="stat-label">Session Duration</div>
-        </div>
+        <div class="stat-box"><div class="stat-val" id="totalEvents">0</div><div class="stat-label">Total Events</div></div>
+        <div class="stat-box"><div class="stat-val" id="totalErrors">0</div><div class="stat-label">Errors</div></div>
+        <div class="stat-box"><div class="stat-val" id="sessionDur">0s</div><div class="stat-label">Session Duration</div></div>
       </div>
-
       <div class="card">
         <div class="card-title">📋 All Events</div>
         <table>
           <thead>
             <tr>
-              <th>Time</th>
-              <th>Type</th>
-              <th>Event</th>
-              <th>Data</th>
-              <th>Status</th>
+              <th>Time</th><th>Type</th><th>Event</th><th>Data</th><th>Status</th>
             </tr>
           </thead>
           <tbody id="eventTable">
@@ -1254,13 +1079,96 @@ if(f=!1,v=d.querySelector('#vwoCode'),cc={},-1<d.URL.indexOf('__vwo_disable__')|
     <span>🎯 Goals: <span id="footer-goals" style="color:var(--accent3)">0</span></span>
     <span>📡 Pushes: <span id="footer-push" style="color:var(--accent2)">0</span></span>
   </div>
-  <span id="sessionTime" style="color:var(--muted)">Session: 0s</span>
+  <div style="display:flex;align-items:center;gap:1.5rem">
+    <span id="currentRoute" style="color:var(--accent);font-family:var(--font-mono);font-size:0.65rem"></span>
+    <span id="sessionTime" style="color:var(--muted)">Session: 0s</span>
+  </div>
 </div>
 
 <script>
-// =====================
+// ============================================================
+// SPA ROUTER
+// ============================================================
+const ROUTES = {
+  ab:      { panel: 'panel-ab',      label: 'A/B Testing',       group: 'Core Features' },
+  mvt:     { panel: 'panel-mvt',     label: 'Multivariate',      group: 'Core Features' },
+  split:   { panel: 'panel-split',   label: 'Split URL',         group: 'Core Features' },
+  heatmap: { panel: 'panel-heatmap', label: 'Heatmaps',          group: 'Analytics' },
+  scroll:  { panel: 'panel-scroll',  label: 'Scrollmap',         group: 'Analytics' },
+  session: { panel: 'panel-session', label: 'Session Recording', group: 'Analytics' },
+  funnel:  { panel: 'panel-funnel',  label: 'Funnel Analysis',   group: 'Analytics' },
+  goals:   { panel: 'panel-goals',   label: 'Goals & Conversions', group: 'Advanced' },
+  ff:      { panel: 'panel-ff',      label: 'Feature Flags',     group: 'Advanced' },
+  push:    { panel: 'panel-push',    label: 'Push API',          group: 'Advanced' },
+  events:  { panel: 'panel-events',  label: 'Event Log',         group: 'Advanced' },
+};
+
+let currentRoute = null;
+
+function navigate(route, pushState = true) {
+  if (!ROUTES[route]) route = 'ab';
+  if (currentRoute === route) return;
+
+  // Hide current
+  if (currentRoute) {
+    const prev = document.getElementById(ROUTES[currentRoute].panel);
+    if (prev) prev.classList.remove('active');
+  }
+
+  // Show new
+  const panel = document.getElementById(ROUTES[route].panel);
+  if (panel) {
+    panel.classList.add('active');
+    // Scroll content to top
+    document.querySelector('.content').scrollTop = 0;
+  }
+
+  // Update nav items
+  document.querySelectorAll('.nav-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.route === route);
+  });
+
+  // Update hash (without triggering hashchange handler loop)
+  if (pushState) {
+    history.pushState({ route }, '', '#' + route);
+  }
+
+  // Update indicators
+  document.getElementById('routeIndicator').textContent = '#' + route;
+  document.getElementById('currentRoute').textContent = '/' + route;
+
+  currentRoute = route;
+}
+
+// Intercept all nav-item clicks
+document.querySelectorAll('[data-route]').forEach(el => {
+  el.addEventListener('click', e => {
+    e.preventDefault();
+    navigate(el.dataset.route);
+  });
+});
+
+// Handle browser back/forward
+window.addEventListener('popstate', e => {
+  const route = (e.state && e.state.route) || getHashRoute();
+  navigate(route, false);
+});
+
+// Handle direct URL hash
+function getHashRoute() {
+  const hash = location.hash.replace('#', '').trim();
+  return ROUTES[hash] ? hash : 'ab';
+}
+
+// Initial load
+navigate(getHashRoute(), false);
+// Replace initial state so back button works correctly
+history.replaceState({ route: currentRoute }, '', '#' + currentRoute);
+
+
+// ============================================================
 // STATE
-// =====================
+// ============================================================
 const state = {
   vwoLoaded: false,
   accountId: null,
@@ -1278,9 +1186,9 @@ const state = {
   scrollMilestones: new Set()
 };
 
-// =====================
+// ============================================================
 // UTILITIES
-// =====================
+// ============================================================
 function ts() {
   return new Date().toLocaleTimeString('en-US', {hour12:false});
 }
@@ -1288,14 +1196,11 @@ function ts() {
 function addLog(boxId, msg, type='info') {
   const box = document.getElementById(boxId);
   if (!box) return;
+  const isPlaceholder = box.children.length === 1 && box.children[0].textContent.match(/Waiting|Configure|Click coord|Drag|Interact|Fire goals|Toggle|Push attrib|Select variants/);
+  if (isPlaceholder) box.innerHTML = '';
   const entry = document.createElement('div');
   entry.className = 'log-entry';
   entry.innerHTML = `<span class="log-time">${ts()}</span><span class="log-msg ${type==='error'?'log-error':type==='warn'?'log-warn':''}">${msg}</span>`;
-  // Remove hint
-  const hint = box.querySelector('.log-entry');
-  if (hint && hint.textContent.includes('Waiting') || hint && hint.textContent.includes('Configure') || hint && hint.textContent.includes('Click') || hint && hint.textContent.includes('Drag') || hint && hint.textContent.includes('Interact') || hint && hint.textContent.includes('Fire') || hint && hint.textContent.includes('Toggle') || hint && hint.textContent.includes('Push')) {
-    if (box.children.length === 1) box.innerHTML = '';
-  }
   box.appendChild(entry);
   box.scrollTop = box.scrollHeight;
 }
@@ -1305,8 +1210,7 @@ function addGlobalEvent(type, event, data, status='ok') {
   state.events.unshift({time: ts(), type, event, data: JSON.stringify(data), status});
   document.getElementById('totalEvents').textContent = state.totalEvents;
   document.getElementById('sessionEvents').textContent = 'Events: ' + state.totalEvents;
-  if (status === 'error') state.errors++;
-  document.getElementById('totalErrors').textContent = state.errors;
+  if (status === 'error') { state.errors++; document.getElementById('totalErrors').textContent = state.errors; }
   renderEventTable();
 }
 
@@ -1316,7 +1220,7 @@ function renderEventTable() {
     tbody.innerHTML = '<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:1.5rem">No events yet</td></tr>';
     return;
   }
-  tbody.innerHTML = state.events.slice(0,50).map(e => `
+  tbody.innerHTML = state.events.slice(0, 50).map(e => `
     <tr>
       <td>${e.time}</td>
       <td><span class="badge ${e.type==='conversion'?'badge-green':e.type==='error'?'badge-orange':'badge-purple'}">${e.type}</span></td>
@@ -1328,105 +1232,42 @@ function renderEventTable() {
 }
 
 function clearAllEvents() {
-  state.events = [];
-  state.totalEvents = 0;
-  state.errors = 0;
+  state.events = []; state.totalEvents = 0; state.errors = 0;
   document.getElementById('totalEvents').textContent = 0;
   document.getElementById('totalErrors').textContent = 0;
   renderEventTable();
 }
 
-function callVWO(method, args) {
-  if (!window._vwo_code && !window.VWO) {
-    addLog('ab-log', `⚠️ VWO not loaded. Load with an Account ID first.`, 'warn');
-    return false;
-  }
-  try {
-    if (window.VWO && window.VWO[method]) {
-      window.VWO[method].apply(window.VWO, args);
-    } else {
-      window._vwo_code && window._vwo_code.push && window._vwo_code.push(args);
-    }
-    return true;
-  } catch(e) {
-    return false;
-  }
-}
-
-// =====================
-// NAV
-// =====================
-function showPanel(id) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  event.currentTarget.classList.add('active');
-}
-
-// =====================
+// ============================================================
 // VWO LOADING
-// =====================
+// ============================================================
 function loadVWO() {
   const accountId = document.getElementById('accountInput').value.trim();
   const cdn = document.getElementById('cdnInput').value.trim();
-  
   if (!accountId) {
     document.getElementById('snippetStatus').innerHTML = '<span style="color:#f87171">⚠️ Please enter an Account ID</span>';
     return;
   }
-
   document.getElementById('snippetStatus').innerHTML = '<span style="color:var(--muted)">⏳ Loading VWO snippet...</span>';
-
-  // Remove existing VWO script
   const existing = document.getElementById('vwo-script');
   if (existing) existing.remove();
-
-  // Inject VWO async snippet
   const script = document.createElement('script');
   script.id = 'vwo-script';
-  
   const cdnUrl = cdn || `https://dev.visualwebsiteoptimizer.com/j.php?a=${accountId}&u=${encodeURIComponent(location.href)}&r=${Math.random()}&f=1`;
-  
-  window._vwo_code = window._vwo_code || (function() {
-    var a = accountId, d = 300;
-    return {
-      account_id: a,
-      settings_tolerance: d,
-      use_existing_jquery: false,
-      is_spa: 1,
-      hide_element: 'body',
-      hide_element_style: 'opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important',
-      finish: function(){},
-      finished: false,
-      load: function(url){var e=document.createElement('script');e.src=url;document.head.appendChild(e)},
-      init: function(){
-        var url='https://dev.visualwebsiteoptimizer.com/j.php?a='+a+'&u='+encodeURIComponent(d.location.href)+'&f=1&r='+Math.random();
-        this.load(url);
-        return this;
-      }
-    };
-  }());
-
   script.src = cdnUrl;
   script.async = true;
   script.onload = () => onVWOLoad(accountId);
   script.onerror = () => onVWOError(accountId);
   document.head.appendChild(script);
-
   state.accountId = accountId;
   document.getElementById('accountId').textContent = 'Account: ' + accountId;
-
-  // Simulate load check
-  setTimeout(() => {
-    // Even if script errors (due to invalid account), we mark as attempted
-    if (!state.vwoLoaded) onVWOLoad(accountId, true);
-  }, 3000);
+  setTimeout(() => { if (!state.vwoLoaded) onVWOLoad(accountId, true); }, 3000);
 }
 
 function onVWOLoad(accountId, simulated=false) {
   state.vwoLoaded = true;
-  document.getElementById('vwoStatus').style.background = 'var(--accent3)';
-  document.getElementById('vwoStatus').style.boxShadow = '0 0 8px var(--accent3)';
+  const dot = document.getElementById('vwoStatus');
+  dot.className = 'status-dot live';
   document.getElementById('vwoStatusText').textContent = simulated ? 'VWO attempted (simulated)' : 'VWO loaded ✓';
   document.getElementById('snippetStatus').innerHTML = `<span style="color:var(--accent3)">✅ VWO ${simulated?'script attempted':'loaded'} for account <strong>${accountId}</strong>${simulated?' (responses depend on valid account ID)':''}</span>`;
   addGlobalEvent('load', 'vwo_loaded', {accountId, simulated});
@@ -1434,27 +1275,25 @@ function onVWOLoad(accountId, simulated=false) {
 }
 
 function onVWOError(accountId) {
-  document.getElementById('vwoStatus').style.background = '#f87171';
+  document.getElementById('vwoStatus').className = 'status-dot error';
   document.getElementById('vwoStatusText').textContent = 'VWO load error';
   document.getElementById('snippetStatus').innerHTML = `<span style="color:#f87171">❌ Failed to load VWO script. Check Account ID: ${accountId}</span>`;
   addGlobalEvent('error', 'vwo_load_error', {accountId}, 'error');
-  state.errors++;
 }
 
 function clearVWO() {
   const s = document.getElementById('vwo-script');
   if (s) s.remove();
   state.vwoLoaded = false;
-  document.getElementById('vwoStatus').style.background = 'var(--muted)';
-  document.getElementById('vwoStatus').style.boxShadow = 'none';
+  document.getElementById('vwoStatus').className = 'status-dot';
   document.getElementById('vwoStatusText').textContent = 'VWO not loaded';
   document.getElementById('snippetStatus').innerHTML = '';
   document.getElementById('accountId').textContent = 'Account: —';
 }
 
-// =====================
+// ============================================================
 // A/B TEST
-// =====================
+// ============================================================
 function selectVariant(v) {
   state.selectedVariant = v;
   state.abVisitors++;
@@ -1468,10 +1307,7 @@ function selectVariant(v) {
 }
 
 function trackConversion() {
-  if (!state.selectedVariant) {
-    addLog('ab-log', '⚠️ Select a variant first to track conversion', 'warn');
-    return;
-  }
+  if (!state.selectedVariant) { addLog('ab-log', '⚠️ Select a variant first to track conversion', 'warn'); return; }
   state.abConversions++;
   document.getElementById('abConversions').textContent = state.abConversions;
   updateABRate();
@@ -1501,9 +1337,9 @@ function updateABRate() {
   document.getElementById('abRate').textContent = rate + '%';
 }
 
-// =====================
+// ============================================================
 // MVT
-// =====================
+// ============================================================
 const mvtHeadlines = { h1: 'Original Headline — Drive Growth', h2: 'Grow Faster.', h3: 'Ready to 10x your conversions?' };
 const mvtCTAs = { c1: 'Buy Now', c2: 'Start Free Trial', c3: 'Get a Demo' };
 
@@ -1527,9 +1363,9 @@ function trackMVT() {
   document.getElementById('footer-goals').textContent = state.goals;
 }
 
-// =====================
+// ============================================================
 // SPLIT URL
-// =====================
+// ============================================================
 function updateSplit(val) {
   document.getElementById('splitControl').textContent = val + '%';
   document.getElementById('splitVariation').textContent = (100-val) + '%';
@@ -1546,9 +1382,9 @@ function simulateSplit() {
   addGlobalEvent('split', 'split_decision', {rand, splitVal, variant, dest});
 }
 
-// =====================
+// ============================================================
 // HEATMAP
-// =====================
+// ============================================================
 let clickCount = 0;
 function recordClick(e) {
   const zone = document.getElementById('heatmapZone');
@@ -1557,23 +1393,17 @@ function recordClick(e) {
   const y = e.clientY - rect.top;
   const pctX = ((x/rect.width)*100).toFixed(1);
   const pctY = ((y/rect.height)*100).toFixed(1);
-
-  // Draw heat dot
   const dot = document.createElement('div');
   dot.className = 'heat-dot';
   const size = 40 + Math.random()*30;
   dot.style.cssText = `width:${size}px;height:${size}px;left:${x-size/2}px;top:${y-size/2}px;background:radial-gradient(circle, rgba(255,77,0,0.8) 0%, rgba(255,77,0,0) 70%);`;
   zone.appendChild(dot);
   setTimeout(() => dot.remove(), 3000);
-
-  // Hide hint
   document.getElementById('heatmapHint').style.display = 'none';
-
   clickCount++;
   state.clicks++;
   document.getElementById('clickCount').textContent = clickCount;
   document.getElementById('footer-clicks').textContent = state.clicks;
-
   addLog('heat-log', `🔥 Click @ x:${pctX}%, y:${pctY}% — element: ${e.target.tagName.toLowerCase()}`);
   addGlobalEvent('heatmap', 'click_recorded', {x: pctX+'%', y: pctY+'%', element: e.target.tagName});
 }
@@ -1585,13 +1415,12 @@ function clearHeatmap() {
   document.getElementById('heatmapHint').style.display = '';
 }
 
-// =====================
+// ============================================================
 // SCROLLMAP
-// =====================
+// ============================================================
 function simulateScroll(val) {
   document.getElementById('scrollDepth').textContent = val + '%';
-  const milestones = [25,50,75,90,100];
-  milestones.forEach(m => {
+  [25,50,75,90,100].forEach(m => {
     if (val >= m && !state.scrollMilestones.has(m)) {
       state.scrollMilestones.add(m);
       addLog('scroll-log', `📜 Scroll milestone hit: ${m}% — VWO scroll depth event fired`);
@@ -1600,18 +1429,16 @@ function simulateScroll(val) {
   });
 }
 
-// =====================
+// ============================================================
 // SESSION RECORDING
-// =====================
+// ============================================================
 let mouseMoveThrottle = null;
 function trackMouseMove(e) {
   if (mouseMoveThrottle) return;
   mouseMoveThrottle = setTimeout(() => {
     const zone = document.getElementById('sessionZone');
     const rect = zone.getBoundingClientRect();
-    const x = (e.clientX - rect.left).toFixed(0);
-    const y = (e.clientY - rect.top).toFixed(0);
-    document.getElementById('mousePos').textContent = `x:${x} y:${y}`;
+    document.getElementById('mousePos').textContent = `x:${(e.clientX-rect.left).toFixed(0)} y:${(e.clientY-rect.top).toFixed(0)}`;
     mouseMoveThrottle = null;
   }, 100);
 }
@@ -1621,39 +1448,25 @@ function sessionLog(msg) {
   addGlobalEvent('session', msg, {});
 }
 
-// =====================
+// ============================================================
 // FUNNEL
-// =====================
+// ============================================================
 const funnelData = [
-  {pct:100, users:1000},
-  {pct:72, users:720},
-  {pct:48, users:480},
-  {pct:18, users:180},
-  {pct:9, users:90}
+  {pct:100,users:1000},{pct:72,users:720},{pct:48,users:480},{pct:18,users:180},{pct:9,users:90}
 ];
 
 function completeFunnelStep(n) {
-  if (n !== state.funnelStep + 1 && n !== 1) {
-    addLog && null; // just ignore out-of-order
-    return;
-  }
+  if (n !== state.funnelStep + 1 && n !== 1) return;
   state.funnelStep = n;
-
   for (let i=1; i<=n; i++) {
     const step = document.getElementById('fs-'+i);
     if (!step) continue;
     step.classList.add('done');
-    const bar = step.querySelector('.funnel-bar');
-    const pct = step.querySelector('.funnel-pct');
-    bar.style.width = funnelData[i-1].pct + '%';
-    pct.textContent = funnelData[i-1].pct + '%';
+    step.querySelector('.funnel-bar').style.width = funnelData[i-1].pct + '%';
+    step.querySelector('.funnel-pct').textContent = funnelData[i-1].pct + '%';
   }
-
-  const completed = n === 5 ? funnelData[4].users : 0;
-  document.getElementById('funnelCompleted').textContent = completed || funnelData[n-1].users;
-  const dropoff = (100 - funnelData[n-1].pct).toFixed(0) + '%';
-  document.getElementById('funnelDropoff').textContent = dropoff;
-
+  document.getElementById('funnelCompleted').textContent = funnelData[n-1].users;
+  document.getElementById('funnelDropoff').textContent = (100 - funnelData[n-1].pct).toFixed(0) + '%';
   addGlobalEvent('funnel', 'step_completed', {step: n, users: funnelData[n-1].users, pct: funnelData[n-1].pct});
 }
 
@@ -1679,44 +1492,40 @@ function resetFunnel() {
   document.getElementById('funnelDropoff').textContent = '100%';
 }
 
-// =====================
+// ============================================================
 // GOALS
-// =====================
+// ============================================================
 function firePageGoal() {
   const id = document.getElementById('pageGoalId').value || '1';
   addLog('goals-log', `🎯 Page Goal fired — VWO.push('event','goal_page_${id}')`);
   addGlobalEvent('conversion', 'page_goal', {goalId: id});
-  state.goals++;
-  document.getElementById('footer-goals').textContent = state.goals;
+  state.goals++; document.getElementById('footer-goals').textContent = state.goals;
 }
 
 function fireRevenueGoal() {
   const amt = document.getElementById('revenueAmount').value || '99';
   addLog('goals-log', `💰 Revenue Goal fired — VWO.push('revenue', ${amt})`);
   addGlobalEvent('conversion', 'revenue_goal', {amount: amt});
-  state.goals++;
-  document.getElementById('footer-goals').textContent = state.goals;
+  state.goals++; document.getElementById('footer-goals').textContent = state.goals;
 }
 
 function fireClickGoal() {
   const sel = document.getElementById('clickGoalSelector').value || '.btn';
   addLog('goals-log', `🖱️ Click Goal fired for selector: ${sel}`);
   addGlobalEvent('conversion', 'click_goal', {selector: sel});
-  state.goals++;
-  document.getElementById('footer-goals').textContent = state.goals;
+  state.goals++; document.getElementById('footer-goals').textContent = state.goals;
 }
 
 function fireCustomEvent() {
   const name = document.getElementById('customEventName').value || 'custom_event';
   addLog('goals-log', `⚡ Custom Event fired: ${name}`);
   addGlobalEvent('conversion', name, {type: 'custom'});
-  state.goals++;
-  document.getElementById('footer-goals').textContent = state.goals;
+  state.goals++; document.getElementById('footer-goals').textContent = state.goals;
 }
 
-// =====================
+// ============================================================
 // FEATURE FLAGS
-// =====================
+// ============================================================
 function toggleFF(id, name) {
   const el = document.getElementById(id);
   const isOn = el.classList.toggle('on');
@@ -1724,9 +1533,9 @@ function toggleFF(id, name) {
   addGlobalEvent('flag', 'ff_toggled', {flag: name, enabled: isOn});
 }
 
-// =====================
+// ============================================================
 // PUSH API
-// =====================
+// ============================================================
 function addPushPair() {
   const container = document.getElementById('push-pairs');
   const pair = document.createElement('div');
@@ -1736,9 +1545,7 @@ function addPushPair() {
   container.appendChild(pair);
 }
 
-function removePushPair(btn) {
-  btn.parentElement.remove();
-}
+function removePushPair(btn) { btn.parentElement.remove(); }
 
 function applyPreset(obj) {
   const container = document.getElementById('push-pairs');
@@ -1759,30 +1566,23 @@ function executePush() {
     const v = pair.querySelector('.push-val').value.trim();
     if (k && v) pairs[k] = v;
   });
-
-  if (Object.keys(pairs).length === 0) {
-    addLog('push-log', '⚠️ No attributes to push', 'warn');
-    return;
-  }
-
+  if (Object.keys(pairs).length === 0) { addLog('push-log', '⚠️ No attributes to push', 'warn'); return; }
   const call = `VWO.push(${JSON.stringify(pairs)})`;
   addLog('push-log', `📡 Executing: ${call}`);
-
   if (window.VWO && window.VWO.push) {
-    try { window.VWO.push(pairs); addLog('push-log', '✅ Push successful'); } 
+    try { window.VWO.push(pairs); addLog('push-log', '✅ Push successful'); }
     catch(e) { addLog('push-log', `❌ Push error: ${e.message}`, 'error'); }
   } else {
     addLog('push-log', '⚠️ VWO.push() simulated (VWO not loaded)');
   }
-
   addGlobalEvent('push', 'vwo_push', pairs);
   state.pushes++;
   document.getElementById('footer-push').textContent = state.pushes;
 }
 
-// =====================
+// ============================================================
 // SESSION TIMER
-// =====================
+// ============================================================
 setInterval(() => {
   const dur = Math.floor((Date.now() - state.sessionStart)/1000);
   document.getElementById('sessionTime').textContent = `Session: ${dur}s`;
